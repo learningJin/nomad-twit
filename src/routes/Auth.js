@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 
 
 const Auth = () => {
-    const email = useInput('');
-    const password = useInput('');
+    const [email, setEmail] = useInput('');
+    const [password, setPassword] = useInput('');
 
     const [newAccount, setNewAccount] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');

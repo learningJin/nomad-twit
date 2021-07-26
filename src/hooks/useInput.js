@@ -7,10 +7,10 @@ const useInput = (initialValue) => {
         setValue(event.target.value);
     }
 
-    return {
+    return [{
         value,
         onChange,
-    }
+    }, setValue ];
 }
 
 export default useInput;
