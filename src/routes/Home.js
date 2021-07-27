@@ -1,3 +1,4 @@
+import Twit from 'components/Twit';
 import { dbService } from 'fBase';
 import useInput from 'hooks/useInput';
 import React, { useEffect, useState } from 'react';
@@ -21,10 +22,10 @@ const Home = ({ userObj }) => {
 
     useEffect(() => {
         //getTwits();
-        dbService.collection('twits').onSnapshot( snapshot => {
+        dbService.collection('twits').onSnapshot(snapshot => {
             const arr = snapshot.docs.map(doc => {
-                return { 
-                    ...doc.data(), 
+                return {
+                    ...doc.data(),
                     id: doc.id,
                 }
             });
@@ -37,7 +38,7 @@ const Home = ({ userObj }) => {
         dbService.collection('twits').add({
             text: twit.value,
             createAt: Date.now(),
-            creatorId : userObj.uid,
+            creatorId: userObj.uid,
         });
         setTwit('');
     }
@@ -49,11 +50,11 @@ const Home = ({ userObj }) => {
                 <input type="submit" value="Twit" />
             </form>
             <div>
-                <ul>{
-                    twits.map((item, index) => (
-                        <li key={index}>{item.text}</li>
-                    ))
-                }</ul>
+            {
+                twits.map((item, index) => (
+                    <Twit twitObj={item} isOwner={userObj.uid === item.creatorId} key={index}/>
+                ))
+            }
             </div>
         </div>
     )
