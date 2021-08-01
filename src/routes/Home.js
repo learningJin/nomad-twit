@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 const Home = ({ userObj }) => {
     const [twit, setTwit] = useInput('');
     const [twits, setTwits] = useState([]);
-    const [attachment, setAttachment] = useState();
+    const [attachment, setAttachment] = useState(null);
 
     useEffect(() => {
         dbService.collection('twits').onSnapshot(snapshot => {
@@ -23,15 +23,25 @@ const Home = ({ userObj }) => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        // dbService.collection('twits').add({
-        //     text: twit.value,
-        //     createAt: Date.now(),
-        //     creatorId: userObj.uid,
-        // });
-        // setTwit('');
-        const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
-        const res = await fileRef.putString(attachment, 'data_url');
-        console.log(res);
+
+        let attachmentUrl = '';
+        if(attachment){
+            const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+            const res = await attachmentRef.putString(attachment, 'data_url');
+            attachmentUrl = await res.ref.getDownloadURL();
+        }
+
+        const req = {
+            text: twit.value,
+            createAt: Date.now(),
+            creatorId: userObj.uid,
+            attachmentUrl,
+        }
+        console.log(req);
+        dbService.collection('twits').add(req);
+        setTwit('');
+        setAttachment(null);
+
     }
     
 

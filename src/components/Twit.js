@@ -1,4 +1,4 @@
-import { dbService } from 'fBase';
+import { dbService, storageService } from 'fBase';
 import useInput from 'hooks/useInput';
 import React, { useState } from 'react';
 
@@ -10,6 +10,9 @@ const Twit = ({ twitObj, isOwner }) => {
         const confirm = window.confirm('really do you want to delete?');
         if (confirm) {
             await dbService.doc(`twits/${twitObj.id}`).delete();
+            if(twitObj.attachmentUrl){
+                await storageService.refFromURL(twitObj.attachmentUrl).delete();
+            }
         }
     }
 
@@ -37,6 +40,7 @@ const Twit = ({ twitObj, isOwner }) => {
                 ) : (
                     <>
                         <h4>{twitObj.text}</h4>
+                        {twitObj.attachmentUrl && <img src={twitObj.attachmentUrl} width="50px" height="auto" /> }
                         {
                             isOwner && (
                                 <>
