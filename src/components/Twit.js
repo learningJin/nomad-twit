@@ -1,6 +1,7 @@
-import { dbService, storageService } from 'fBase';
-import useInput from 'hooks/useInput';
 import React, { useState } from 'react';
+import { dbService, storageService } from 'fBase';
+
+import useInput from 'hooks/useInput';
 
 const Twit = ({ twitObj, isOwner }) => {
     const [editing, setEditing] = useState(false);

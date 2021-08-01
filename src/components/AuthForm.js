@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
 import { authService } from 'fBase';
+
 import useInput from 'hooks/useInput';
-import React, {useState} from 'react';
 
 const AuthForm = () => {
     const [email, setEmail] = useInput('');

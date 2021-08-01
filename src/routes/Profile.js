@@ -1,8 +1,9 @@
-import Twit from 'components/Twit';
-import { authService, dbService } from 'fBase';
-import useInput from 'hooks/useInput';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import { authService, dbService } from 'fBase';
+import TwitsView from 'components/TwitsView';
+import useInput from 'hooks/useInput';
 
 const Profile = ({ userObj, refreshUser }) => {
     const history = useHistory();
@@ -50,15 +51,7 @@ const Profile = ({ userObj, refreshUser }) => {
                 <input type="text" placeholder="display name" {...newDisplayName} />
                 <input type="submit" value="Update Profile" />
             </form>
-            <>
-                {
-                    myTwits.map((item, index) => (
-                        <Twit twitObj={item}
-                            isOwner={true}
-                            key={index}
-                        />))
-                }
-            </>
+            <TwitsView twits={myTwits} userObj={userObj} />
             <button onClick={onSignOutClick}>Sign out</button>
         </>
     )

@@ -1,8 +1,8 @@
-import Twit from 'components/Twit';
-import TwitFactory from 'components/TwitFactory';
-import { dbService } from 'fBase';
 import React, { useEffect, useState } from 'react';
+import { dbService } from 'fBase';
 
+import TwitFactory from 'components/TwitFactory';
+import TwitsView from 'components/TwitsView';
 
 const Home = ({ userObj }) => {
     const [twits, setTwits] = useState([]);
@@ -24,14 +24,7 @@ const Home = ({ userObj }) => {
     return (
         <div>
             <TwitFactory userObj={userObj} />
-            <div>
-                {twits.map((item, index) => (
-                    <Twit twitObj={item}
-                        isOwner={userObj.uid === item.creatorId}
-                        key={index}
-                    />
-                ))}
-            </div>
+            <TwitsView twits={twits} userObj={userObj} />
         </div>
     )
 }

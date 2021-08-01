@@ -1,21 +1,22 @@
-import AuthForm from 'components/AuthForm';
-import { authService, firebaseInstance } from 'fBase';
 import React from 'react';
+import { authService, firebaseInstance } from 'fBase';
+
+import AuthForm from 'components/AuthForm';
 
 const Auth = () => {
     const onSocialClick = async (event) => {
         const name = event.target.name;
         let provider;
 
-        if(name === 'google'){
+        if (name === 'google') {
             provider = new firebaseInstance.auth.GoogleAuthProvider();
             provider.setCustomParameters({
                 prompt: 'select_account'
             });
-        } else if(name === 'github'){
+        } else if (name === 'github') {
             provider = new firebaseInstance.auth.GithubAuthProvider();
             provider.setCustomParameters({
-                login : 'true'
+                login: 'true'
             });
         }
 
