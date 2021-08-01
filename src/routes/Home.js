@@ -25,7 +25,7 @@ const Home = ({ userObj }) => {
         event.preventDefault();
 
         let attachmentUrl = '';
-        if(attachment){
+        if (attachment) {
             const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
             const res = await attachmentRef.putString(attachment, 'data_url');
             attachmentUrl = await res.ref.getDownloadURL();
@@ -33,7 +33,7 @@ const Home = ({ userObj }) => {
 
         const req = {
             text: twit.value,
-            createAt: Date.now(),
+            createdAt: Date.now(),
             creatorId: userObj.uid,
             attachmentUrl,
         }
@@ -43,7 +43,7 @@ const Home = ({ userObj }) => {
         setAttachment(null);
 
     }
-    
+
 
     const onFileChange = (event) => {
         const { files } = event.target;
@@ -67,11 +67,11 @@ const Home = ({ userObj }) => {
                 <input type="text" placeholder="twit" maxLength={120} {...twit} />
                 <input type="file" accept="image/*" onChange={onFileChange} />
                 <input type="submit" value="Twit" />
-                { attachment && (
-                <div>
-                <img src={attachment} width="50px" height="auto" />
-                <button onClick={onClearPhoto}>clear</button>
-                </div>) }
+                {attachment && (
+                    <div>
+                        <img src={attachment} width="50px" height="auto" />
+                        <button onClick={onClearPhoto}>clear</button>
+                    </div>)}
             </form>
             <div>
                 {
