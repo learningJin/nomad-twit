@@ -14,16 +14,6 @@ const Profile = ({ userObj, refreshUser }) => {
         history.push('/');
     }
 
-    const getMyTwits = async () => {
-        const res = await dbService.collection('twits')
-            .where('creatorId', '==', userObj.uid)
-            .orderBy('createdAt', 'desc')
-            .get();
-
-        const myTwits = res.docs.map(doc => doc.data());
-        setMyTwits(myTwits);
-    }
-
     const onSubmit = async (event) => {
         event.preventDefault();
         if (userObj.displayName !== newDisplayName.value) {
@@ -35,10 +25,24 @@ const Profile = ({ userObj, refreshUser }) => {
         }
     }
 
-    useEffect(() => {
-        getMyTwits();
-    }, []);
+    // get and update my twits
+    useEffect( async () => {
+        const res = await dbService.collection('twits')
+            .where('creatorId', '==', userObj.uid)
+            .orderBy('createdAt', 'desc');
+            
+        const unsubscribe = res.onSnapshot(snapshot => {
+            const arr = snapshot.docs.map(doc => {
+                return {
+                    ...doc.data(),
+                    id: doc.id,
+                }
+            });
+            setMyTwits([...arr]);
+        })
 
+        return unsubscribe;
+    }, []);
 
     return (
         <>
@@ -48,7 +52,11 @@ const Profile = ({ userObj, refreshUser }) => {
             </form>
             <>
                 {
-                    myTwits.map(item => <Twit twitObj={item} isOwner={true} />)
+                    myTwits.map((item, index) => (
+                        <Twit twitObj={item}
+                            isOwner={true}
+                            key={index}
+                        />))
                 }
             </>
             <button onClick={onSignOutClick}>Sign out</button>

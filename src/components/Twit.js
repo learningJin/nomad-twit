@@ -10,7 +10,7 @@ const Twit = ({ twitObj, isOwner }) => {
         const confirm = window.confirm('really do you want to delete?');
         if (confirm) {
             await dbService.doc(`twits/${twitObj.id}`).delete();
-            if(twitObj.attachmentUrl){
+            if (twitObj.attachmentUrl) {
                 await storageService.refFromURL(twitObj.attachmentUrl).delete();
             }
         }
@@ -23,7 +23,7 @@ const Twit = ({ twitObj, isOwner }) => {
     const onUpdate = async (event) => {
         event.preventDefault();
         await dbService.doc(`twits/${twitObj.id}`).update({
-            text : newTextInputSet.value,
+            text: newTextInputSet.value,
         });
         toggleEdit();
     }
@@ -40,7 +40,7 @@ const Twit = ({ twitObj, isOwner }) => {
                 ) : (
                     <>
                         <h4>{twitObj.text}</h4>
-                        {twitObj.attachmentUrl && <img src={twitObj.attachmentUrl} width="50px" height="auto" /> }
+                        {twitObj.attachmentUrl && <img src={twitObj.attachmentUrl} width="50px" height="auto" />}
                         {
                             isOwner && (
                                 <>
